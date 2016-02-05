@@ -55,7 +55,5 @@ function noice (track) {
 
   ps = ps.join(' ');
 
-  console.log(ps);
-
   child.exec(ps, function(err){ });
 };
