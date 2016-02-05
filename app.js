@@ -9,10 +9,9 @@ var app = express();
 
 
 
+//// the player!
 
-//// the command!
-
-var ps = 'say noice';
+var player = process.platform === 'darwin' ? 'afplay' : 'omxplayer';
 
 
 
@@ -21,7 +20,7 @@ var ps = 'say noice';
 //// down here we are going call stuff!
 
 app.use(function(req, res, next){
-  noice();
+  noice(req.query.track);
   next();
 });
 
@@ -36,7 +35,6 @@ app.use(express.static('./p'));
 
 
 
-
 //// a port, if you will
 
 app.listen(3000);
@@ -47,6 +45,17 @@ app.listen(3000);
 
 //// and the best part of it all, noice!
 
-function noice () {
-  child.exec('say noice', function(err){ });
+function noice (track) {
+  console.log(track);
+  if (!track) return;
+
+  var ps = [player];
+
+  ps.push(['p/', track, '.mp3'].join(''));
+
+  ps = ps.join(' ');
+
+  console.log(ps);
+
+  child.exec(ps, function(err){ });
 };
